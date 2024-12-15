@@ -5,25 +5,27 @@ import { Home } from '#pages/Home';
 import { NotFound } from '#pages/NotFound';
 import { Timeline } from '#pages/Timeline';
 
+const { home, timeline, bankCard, contato, notFound } = ROUTES;
+
 export const ROUTES_MAP = {
     home: {
-        path: ROUTES.home,
+        path: home,
         element: <Home />,
     },
     timeline: {
-        path: ROUTES.timeline,
+        path: timeline,
         element: <Timeline />,
     },
     bankCard: {
-        path: ROUTES.bankCard,
+        path: bankCard,
         element: <BankCard />,
     },
     contato: {
-        path: ROUTES.contato,
+        path: contato,
         element: <Contato />,
     },
     NotFound: {
-        path: ROUTES.notFound,
+        path: notFound,
         element: <NotFound />,
     },
 };

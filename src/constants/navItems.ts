@@ -1,20 +1,22 @@
 import { ROUTES_MAP } from '#constants/routesMap';
 
+const { home, timeline, bankCard, contato } = ROUTES_MAP;
+
 export const NAV_ITEMS = [
     {
         title: 'Home',
-        ...ROUTES_MAP.home,
+        ...home,
     },
     {
         title: 'Timeline',
-        ...ROUTES_MAP.timeline,
+        ...timeline,
     },
     {
         title: 'Bank card',
-        ...ROUTES_MAP.bankCard,
+        ...bankCard,
     },
     {
         title: 'Contato',
-        ...ROUTES_MAP.contato,
+        ...contato,
     },
 ];
