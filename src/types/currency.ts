@@ -2,6 +2,7 @@ export type Currency = {
     code: string;
     symbol: string;
     title: string;
+    icon: string;
 };
 
 export type CurrencyPrice = {
