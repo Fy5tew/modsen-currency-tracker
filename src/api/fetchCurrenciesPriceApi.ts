@@ -1,11 +1,9 @@
-import {
-    COINAPI_API_KEY,
-    COINAPI_API_KEY_HEADER,
-    COINAPI_API_RATES_URL,
-} from '#constants/api';
-import { CoinApiErrorResponce, CoinApiRatesResponce } from '#types/api';
+import { COINAPI_API_RATES_URL } from '#constants/api';
+import { CoinApiRatesResponce } from '#types/api';
 import { CurrencyPrice } from '#types/currency';
 import { formatTemplate } from '#utils/formatTemplate';
+
+import { coinApiRequest } from './coinapi';
 
 export async function fetchCurrenciesPriceApi(
     baseCurrency: string,
@@ -18,20 +16,7 @@ export async function fetchCurrenciesPriceApi(
     };
     const apiUrl = formatTemplate(COINAPI_API_RATES_URL, urlConfig);
 
-    const headers = new Headers({
-        [COINAPI_API_KEY_HEADER]: COINAPI_API_KEY,
-    });
-
-    const response = await fetch(apiUrl, {
-        headers,
-    });
-
-    if (!response.ok) {
-        const json: CoinApiErrorResponce = await response.json();
-        throw new Error(json.error);
-    }
-
-    const json: CoinApiRatesResponce = await response.json();
+    const json = await coinApiRequest<CoinApiRatesResponce>(apiUrl);
 
     return currencies.map((currency) => ({
         code: currency,

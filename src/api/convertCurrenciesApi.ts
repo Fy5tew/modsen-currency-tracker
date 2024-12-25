@@ -1,10 +1,8 @@
-import {
-    COINAPI_API_CONVERT_URL,
-    COINAPI_API_KEY,
-    COINAPI_API_KEY_HEADER,
-} from '#constants/api';
-import { CoinApiConvertResponce, CoinApiErrorResponce } from '#types/api';
+import { COINAPI_API_CONVERT_URL } from '#constants/api';
+import { CoinApiConvertResponce } from '#types/api';
 import { formatTemplate } from '#utils/formatTemplate';
+
+import { coinApiRequest } from './coinapi';
 
 export async function convertCurrenciesApi(
     value: number,
@@ -17,20 +15,7 @@ export async function convertCurrenciesApi(
     };
     const apiUrl = formatTemplate(COINAPI_API_CONVERT_URL, urlConfig);
 
-    const headers = new Headers({
-        [COINAPI_API_KEY_HEADER]: COINAPI_API_KEY,
-    });
-
-    const response = await fetch(apiUrl, {
-        headers,
-    });
-
-    if (!response.ok) {
-        const json: CoinApiErrorResponce = await response.json();
-        throw new Error(json.error);
-    }
-
-    const json: CoinApiConvertResponce = await response.json();
+    const json = await coinApiRequest<CoinApiConvertResponce>(apiUrl);
 
     return value * json.rate;
 }
