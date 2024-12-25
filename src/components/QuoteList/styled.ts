@@ -19,4 +19,13 @@ export const Title = styled.h1`
     margin: 1em 0;
 
     border-bottom: 1px solid ${COLORS.starDust};
+
+    &:has(span) {
+        grid-column: span 2;
+    }
+`;
+
+export const ErrorText = styled.span`
+    color: ${COLORS.deepCarminePink};
+    font-size: 0.4em;
 `;
