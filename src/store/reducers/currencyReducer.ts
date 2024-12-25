@@ -1,4 +1,4 @@
-import { DEFAULT_CURRENCY } from '#constants/quotes';
+import { CURRENCIES, DEFAULT_CURRENCY } from '#constants/quotes';
 import {
     CurrencyAction,
     CurrencyActionType,
@@ -7,7 +7,10 @@ import {
 
 const initialState: CurrencyState = {
     defaultCurrency: DEFAULT_CURRENCY.code,
-    currencies: [],
+    currencies: Object.values(CURRENCIES).map((currency) => ({
+        ...currency,
+        price: 0,
+    })),
     lastUpdated: -1,
     isLoading: false,
     error: null,
@@ -25,7 +28,13 @@ export function currencyReducer(
         case CurrencyActionType.CURRENCY_FETCH_PRICES_SUCCESS:
             return {
                 ...state,
-                currencies: action.payload,
+                currencies: state.currencies.map((currency) => ({
+                    ...currency,
+                    price:
+                        action.payload.find(
+                            (price) => price.code === currency.code
+                        )?.price ?? 0,
+                })),
                 lastUpdated: Date.now(),
                 isLoading: false,
             };

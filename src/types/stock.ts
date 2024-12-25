@@ -1,4 +1,4 @@
-export type Stock = {
+export type StockInfo = {
     code: string;
     title: string;
     icon: string;
@@ -9,6 +9,8 @@ export type StockRate = {
     rate: number;
 };
 
+export type Stock = StockInfo & StockRate;
+
 export type StockState = {
-    stocks: StockRate[];
+    stocks: Stock[];
 };
