@@ -17,6 +17,7 @@ export async function fetchCurrenciesPriceApi(
     const apiUrl = formatTemplate(COINAPI_API_RATES_URL, urlConfig);
 
     const json = await coinApiRequest<CoinApiRatesResponce>(apiUrl);
+    json.rates.push({ asset_id_quote: baseCurrency, rate: 1 });
 
     return currencies.map((currency) => ({
         code: currency,

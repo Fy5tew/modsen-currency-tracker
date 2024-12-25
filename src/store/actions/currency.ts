@@ -2,7 +2,6 @@ import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 
 import { fetchCurrenciesPriceApi } from '#/api/fetchCurrenciesPriceApi';
-import { CURRENCIES } from '#constants/quotes';
 import {
     CurrencyActionType,
     CurrencyFetchPricesAction,
@@ -58,9 +57,9 @@ export function fetchCurrenciesPrice(): ThunkAction<
             dispatch(fetchPrices());
 
             const baseCurrency = getState().currency.defaultCurrency;
-            const currencies = Object.values(CURRENCIES)
-                .map((currency) => currency.code)
-                .filter((currency) => currency !== baseCurrency);
+            const currencies = getState().currency.currencies.map(
+                ({ code }) => code
+            );
 
             const prices = await fetchCurrenciesPriceApi(
                 baseCurrency,
