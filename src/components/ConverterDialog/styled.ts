@@ -29,6 +29,10 @@ export const InputWrapper = styled.div`
         display: none;
     }
 
+    &:has(input[disabled]) > span {
+        color: ${COLORS.monSoon};
+    }
+
     &:not(:has(input:focus)) > input {
         color: transparent;
     }

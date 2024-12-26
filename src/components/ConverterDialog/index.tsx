@@ -1,4 +1,4 @@
-import { ChangeEvent, ComponentProps } from 'react';
+import { ChangeEvent, ComponentProps, ReactNode } from 'react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -64,12 +64,17 @@ export function ConverterDialog({
     const [fromValue, setFromValue] = useState(0);
     const [toValue, setToValue] = useState(0);
     const [rate, setRate] = useState(1);
+    const [isLoading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
     useEffect(() => {
         setError('');
+        setLoading(true);
         getConversionRateApi(fromCurrency.code, toCurrencyCode)
-            .then((rate) => setRate(rate))
+            .then((rate) => {
+                setRate(rate);
+                setLoading(false);
+            })
             .catch((error) => setError(error.message));
     }, [fromCurrency.code, toCurrencyCode]);
 
@@ -93,6 +98,19 @@ export function ConverterDialog({
         setToCurrencyCode(event.target.value);
     };
 
+    let Message: ReactNode;
+    if (isLoading) {
+        Message = <InfoMessage>Loading...</InfoMessage>;
+    } else if (error) {
+        Message = <ErrorMessage>{error}</ErrorMessage>;
+    } else {
+        Message = (
+            <InfoMessage>
+                1 {fromCurrency.code} ≈ {formatPrice(rate, 2)} {toCurrencyCode}
+            </InfoMessage>
+        );
+    }
+
     return (
         <Dialog {...props} onClose={onClose}>
             <Wrapper>
@@ -100,15 +118,21 @@ export function ConverterDialog({
                 <CurrencyInput
                     value={fromValue}
                     onChange={handleFromValueChange}
+                    disabled={isLoading}
                 >
                     <LabelSubText>
                         {fromCurrency.symbol} {fromCurrency.title}
                     </LabelSubText>
                 </CurrencyInput>
-                <CurrencyInput value={toValue} onChange={handleToValueChange}>
+                <CurrencyInput
+                    value={toValue}
+                    onChange={handleToValueChange}
+                    disabled={isLoading}
+                >
                     <Select
                         value={toCurrencyCode}
                         onChange={handleToCurrencyChange}
+                        disabled={isLoading}
                     >
                         {currencies.map(({ code, symbol, title }) => (
                             <Option key={code} value={code}>
@@ -117,14 +141,7 @@ export function ConverterDialog({
                         ))}
                     </Select>
                 </CurrencyInput>
-                {error ? (
-                    <ErrorMessage>{error}</ErrorMessage>
-                ) : (
-                    <InfoMessage>
-                        1 {fromCurrency.code} ≈ {formatPrice(rate, 2)}{' '}
-                        {toCurrencyCode}
-                    </InfoMessage>
-                )}
+                {Message}
                 <CloseButton onClick={onClose}>Close</CloseButton>
             </Wrapper>
         </Dialog>
