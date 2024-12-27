@@ -1,10 +1,14 @@
 export type History = {
-    time: number;
-    rate: number;
+    timestamp: number;
+    rate_open: number;
+    rate_high: number;
+    rate_low: number;
+    rate_close: number;
 };
 
 export type HistoryState = {
-    selectedCurrency: null | string;
+    selectedCurrency: string;
+    selectedDays: number;
     history: History[];
     lastUpdated: number;
     isLoading: boolean;
@@ -13,6 +17,7 @@ export type HistoryState = {
 
 export enum HistoryActionType {
     HISTORY_SET_SELECTED_CURRENCY = 'HISTORY_SET_SELECTED_CURRENCY',
+    HISTORY_SET_SELECTED_DAYS = 'HISTORY_SET_SELECTED_DAYS',
     HISTORY_FETCH = 'HISTORY_FETCH',
     HISTORY_FETCH_SUCCESS = 'HISTORY_FETCH_SUCCESS',
     HISTORY_FETCH_ERROR = 'HISTORY_FETCH_ERROR',
@@ -20,7 +25,12 @@ export enum HistoryActionType {
 
 export type HistorySetSelectedCurrencyAction = {
     type: HistoryActionType.HISTORY_SET_SELECTED_CURRENCY;
-    payload: null | string;
+    payload: string;
+};
+
+export type HistorySetSelectedDaysAction = {
+    type: HistoryActionType.HISTORY_SET_SELECTED_DAYS;
+    payload: number;
 };
 
 export type HistoryFetchAction = {
@@ -39,6 +49,7 @@ export type HistoryFetchErrorAction = {
 
 export type HistoryAction =
     | HistorySetSelectedCurrencyAction
+    | HistorySetSelectedDaysAction
     | HistoryFetchAction
     | HistoryFetchSuccessAction
     | HistoryFetchErrorAction;
