@@ -20,6 +20,7 @@ export const ListItem = styled.li``;
 
 export const NavLink = styled(RawNavLink)`
     position: relative;
+    color: inherit;
     text-decoration: none;
 
     &:visited {
