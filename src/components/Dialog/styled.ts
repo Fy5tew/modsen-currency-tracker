@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 
 type OverlayProps = {
-    open: boolean;
+    open?: boolean;
 };
 
 export const Overlay = styled.div<OverlayProps>`
