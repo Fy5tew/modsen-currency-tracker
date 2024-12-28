@@ -24,7 +24,6 @@ export function Footer() {
                     of thousands of traders worldwide.
                 </DetailsContent>
             </Details>
-            <div></div>
             <Details open={width > BREAKPOINTS.tablet}>
                 <Summary>General</Summary>
                 <DetailsContent>

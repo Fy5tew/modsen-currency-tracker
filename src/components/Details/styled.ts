@@ -4,8 +4,6 @@ import chevronIcon from '#assets/chevron.svg';
 import { COLORS, MEDIA } from '#constants/styles';
 
 export const Details = styled.details`
-    width: 100%;
-
     display: flex;
     flex-direction: column;
     gap: 2em;
