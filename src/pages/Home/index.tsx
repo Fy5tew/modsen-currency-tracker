@@ -25,27 +25,29 @@ export function Home() {
         <>
             <UpdatedStatus lastUpdated={new Date(lastUpdated)} />
             <QuoteList title="Stocks">
-                {Object.values(STOCKS).map((stock) => (
+                {Object.values(STOCKS).map(({ code, title, icon }) => (
                     <QuoteCard
-                        key={stock.code}
-                        code={stock.code}
-                        title={stock.title}
+                        key={code}
+                        code={code}
+                        title={title}
                         text="15%"
-                        iconSrc={stock.icon}
+                        iconSrc={icon}
                     />
                 ))}
             </QuoteList>
             <QuoteList title="Quotes">
-                {Object.values(CURRENCIES).map((currency) => (
-                    <QuoteCard
-                        key={currency.code}
-                        code={currency.code}
-                        title={currency.title}
-                        text={`${currency.symbol} 77,8`}
-                        iconSrc={currency.icon}
-                        onClick={() => handleQuoteCardClick(currency.code)}
-                    />
-                ))}
+                {Object.values(CURRENCIES).map(
+                    ({ code, title, symbol, icon }) => (
+                        <QuoteCard
+                            key={code}
+                            code={code}
+                            title={title}
+                            text={`${symbol} 77,8`}
+                            iconSrc={icon}
+                            onClick={() => handleQuoteCardClick(code)}
+                        />
+                    )
+                )}
             </QuoteList>
             <ConverterDialog
                 currencyCode={convertCurrency}

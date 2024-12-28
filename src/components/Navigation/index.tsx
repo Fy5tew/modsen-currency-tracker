@@ -6,9 +6,9 @@ export function Navigation() {
     return (
         <Wrapper>
             <List>
-                {NAV_ITEMS.map((item) => (
-                    <ListItem key={item.path}>
-                        <NavLink to={item.path}>{item.title}</NavLink>
+                {NAV_ITEMS.map(({ path, title }) => (
+                    <ListItem key={path}>
+                        <NavLink to={path}>{title}</NavLink>
                     </ListItem>
                 ))}
             </List>

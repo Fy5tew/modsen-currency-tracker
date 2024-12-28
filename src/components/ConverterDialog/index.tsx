@@ -38,11 +38,13 @@ export function ConverterDialog({
                 <Label>
                     <Input />
                     <Select>
-                        {Object.values(CURRENCIES).map((currency) => (
-                            <Option key={currency.code} value={currency.code}>
-                                {currency.symbol} {currency.title}
-                            </Option>
-                        ))}
+                        {Object.values(CURRENCIES).map(
+                            ({ code, symbol, title }) => (
+                                <Option key={code} value={code}>
+                                    {symbol} {title}
+                                </Option>
+                            )
+                        )}
                     </Select>
                 </Label>
                 <CloseButton onClick={onClose}>Close</CloseButton>

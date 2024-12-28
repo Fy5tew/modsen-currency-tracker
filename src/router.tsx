@@ -7,12 +7,8 @@ export function Router() {
     return (
         <Routes>
             <Route element={<PageLayout />}>
-                {Object.values(ROUTES_MAP).map((route) => (
-                    <Route
-                        key={route.path}
-                        path={route.path}
-                        element={route.element}
-                    />
+                {Object.values(ROUTES_MAP).map(({ path, element }) => (
+                    <Route key={path} path={path} element={element} />
                 ))}
             </Route>
         </Routes>
