@@ -36,7 +36,6 @@ export const DetailsContent = styled.div`
 
     @media ${() => MEDIA.tablet} {
         align-items: flex-start;
-        padding-bottom: 1em;
     }
 `;
 

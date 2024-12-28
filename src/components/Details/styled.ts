@@ -12,6 +12,7 @@ export const Details = styled.details`
 
     @media ${() => MEDIA.tablet} {
         border-bottom: 2px solid ${COLORS.starDust};
+        padding-bottom: 1em;
     }
 `;
 
