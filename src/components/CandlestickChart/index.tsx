@@ -13,6 +13,7 @@ import {
     CandlestickChart as CandlestickChartType,
     FinancialDataPoint,
     getConfig,
+    NOTIFICATION_THRESHOLD,
 } from './config';
 import { Canvas, Wrapper } from './styled';
 
@@ -22,8 +23,12 @@ type CandlestickChartProps = {
     data: FinancialDataPoint[];
 };
 
+type CandlestickChartObserver = () => void;
+
 export class CandlestickChart extends Component<CandlestickChartProps> {
     static contextType = ThemeContext;
+    observers: CandlestickChartObserver[] = [];
+    dataChanged = false;
     chartRef = createRef<HTMLCanvasElement>();
     chartInstance: CandlestickChartType | null = null;
 
@@ -31,12 +36,29 @@ export class CandlestickChart extends Component<CandlestickChartProps> {
         this.initializeChart();
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps: CandlestickChartProps) {
+        if (
+            JSON.stringify(this.props.data) !== JSON.stringify(prevProps.data)
+        ) {
+            this.dataChanged = true;
+        }
         this.initializeChart();
     }
 
     componentWillUnmount() {
         this.destroyChart();
+    }
+
+    subscribeObserver(observer: CandlestickChartObserver) {
+        this.observers.push(observer);
+    }
+
+    unsubscribeObserver(observer: CandlestickChartObserver) {
+        this.observers = this.observers.filter((obs) => obs !== observer);
+    }
+
+    notifyObservers() {
+        this.observers.forEach((observer) => observer());
     }
 
     initializeChart() {
@@ -57,6 +79,15 @@ export class CandlestickChart extends Component<CandlestickChartProps> {
         const theme = (this.context as ThemeContextType).theme;
         const config = getConfig(this.props.data, theme);
         this.chartInstance = new Chart(ctx as CanvasRenderingContext2D, config);
+
+        if (
+            this.dataChanged &&
+            this.props.data.length >= NOTIFICATION_THRESHOLD
+        ) {
+            this.notifyObservers();
+        }
+
+        this.dataChanged = false;
     }
 
     destroyChart() {

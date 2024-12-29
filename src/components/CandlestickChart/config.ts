@@ -5,7 +5,8 @@ import { COLORS } from '#/constants/styles';
 import { formatPrice } from '#utils/formatPrice';
 import { hexToRgba } from '#utils/hexToRgba';
 
-const PRICE_FRACTION_DIGITS = 2;
+export const PRICE_FRACTION_DIGITS = 2;
+export const NOTIFICATION_THRESHOLD = 200;
 
 export type CandlestickChart = Chart<'candlestick'>;
 
