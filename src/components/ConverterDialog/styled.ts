@@ -52,9 +52,15 @@ export const Input = styled.input`
 
 export const InputFormattedText = styled.span`
     position: absolute;
-    top: 50%;
-    left: 1em;
-    transform: translateY(-50%);
+    top: 0;
+    left: 0;
+    margin: 0 1em;
+    width: calc(100% - 2em);
+    height: 100%;
+    overflow-x: auto;
+
+    display: inline-flex;
+    align-items: center;
 
     font-size: 1em;
 `;
