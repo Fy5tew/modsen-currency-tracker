@@ -1,9 +1,10 @@
-import { ChangeEvent, Component } from 'react';
+import { ChangeEvent, Component, createRef } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch, UnknownAction } from 'redux';
 
 import { RootState } from '#/store';
 import { CandlestickChart } from '#components/CandlestickChart';
+import { ChartInfoDialog } from '#components/ChartInfoDialog';
 import { UpdatedStatus } from '#components/UpdatedStatus';
 import { setSelectedCurrency, setSelectedDays } from '#store/actions/history';
 import { fetchCurrencyHistory } from '#store/actions/history';
@@ -49,10 +50,26 @@ type TimelineProps = {
     setSelectedDays: (days: number) => void;
 };
 
-class TimelinePage extends Component<TimelineProps> {
+type TimelineState = {
+    isDialogOpen: boolean;
+};
+
+class TimelinePage extends Component<TimelineProps, TimelineState> {
     interval: NodeJS.Timeout | null = null;
+    chartRef = createRef<CandlestickChart>();
+
+    constructor(props: TimelineProps) {
+        super(props);
+        this.state = { isDialogOpen: false };
+    }
 
     componentDidMount() {
+        if (this.chartRef.current) {
+            this.chartRef.current.subscribeObserver(() => {
+                this.openDialog();
+            });
+        }
+
         this.props.fetchCurrencyHistory();
         this.startInterval();
     }
@@ -89,6 +106,10 @@ class TimelinePage extends Component<TimelineProps> {
     handleSelectedDaysChange = (event: ChangeEvent<HTMLSelectElement>) => {
         this.props.setSelectedDays(+event.target.value);
     };
+
+    openDialog = () => this.setState({ isDialogOpen: true });
+
+    closeDialog = () => this.setState({ isDialogOpen: false });
 
     render() {
         const {
@@ -139,6 +160,7 @@ class TimelinePage extends Component<TimelineProps> {
                     {message}
                 </ControlsWrapper>
                 <CandlestickChart
+                    ref={this.chartRef}
                     data={currencyHistory.map(
                         ({
                             timestamp,
@@ -154,6 +176,10 @@ class TimelinePage extends Component<TimelineProps> {
                             c: rate_close,
                         })
                     )}
+                />
+                <ChartInfoDialog
+                    open={this.state.isDialogOpen}
+                    onClose={this.closeDialog}
                 />
             </>
         );
