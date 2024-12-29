@@ -1,12 +1,13 @@
-import { ChangeEvent, ReactNode, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { UnknownAction } from 'redux';
+import { ChangeEvent, Component } from 'react';
+import { connect } from 'react-redux';
+import { Dispatch, UnknownAction } from 'redux';
 
 import { RootState } from '#/store';
 import { CandlestickChart } from '#components/CandlestickChart';
 import { UpdatedStatus } from '#components/UpdatedStatus';
 import { setSelectedCurrency, setSelectedDays } from '#store/actions/history';
 import { fetchCurrencyHistory } from '#store/actions/history';
+import { History } from '#types/history';
 
 import {
     ControlsWrapper,
@@ -35,113 +36,151 @@ const DAYS_SELECT_VALUES = [
     },
 ];
 
-export function Timeline() {
-    const dispatch = useDispatch();
+type TimelineProps = {
+    lastUpdated: number;
+    currencies: Array<{ code: string; symbol: string; title: string }>;
+    selectedCurrency: string;
+    selectedDays: number;
+    currencyHistory: History[];
+    isLoading: boolean;
+    error: string | null;
+    fetchCurrencyHistory: () => void;
+    setSelectedCurrency: (currency: string) => void;
+    setSelectedDays: (days: number) => void;
+};
 
-    const lastUpdated = useSelector(
-        (state: RootState) => state.history.lastUpdated
-    );
+class TimelinePage extends Component<TimelineProps> {
+    interval: NodeJS.Timeout | null = null;
 
-    const currencies = useSelector((state: RootState) =>
-        state.currency.currencies.filter(
-            ({ code }) => code !== state.currency.defaultCurrency
-        )
-    );
-
-    const selectedCurrency = useSelector(
-        (state: RootState) => state.history.selectedCurrency
-    );
-
-    const selectedDays = useSelector(
-        (state: RootState) => state.history.selectedDays
-    );
-
-    const currencyHistory = useSelector(
-        (state: RootState) => state.history.history
-    );
-
-    const isLoading = useSelector(
-        (state: RootState) => state.history.isLoading
-    );
-
-    const error = useSelector((state: RootState) => state.history.error);
-
-    useEffect(() => {
-        dispatch(fetchCurrencyHistory() as unknown as UnknownAction);
-
-        const interval = setInterval(() => {
-            dispatch(fetchCurrencyHistory() as unknown as UnknownAction);
-        }, 600000);
-
-        return () => clearInterval(interval);
-    }, [dispatch, selectedCurrency, selectedDays]);
-
-    const handleSelectedCurrencyChange = (
-        event: ChangeEvent<HTMLSelectElement>
-    ) => {
-        dispatch(setSelectedCurrency(event.target.value));
-    };
-
-    const handleSelectedDaysChange = (
-        event: ChangeEvent<HTMLSelectElement>
-    ) => {
-        dispatch(setSelectedDays(+event.target.value));
-    };
-
-    let message: ReactNode;
-    if (isLoading) {
-        message = <InfoMessage>Loading...</InfoMessage>;
-    } else if (error) {
-        message = <ErrorMessage>{error}</ErrorMessage>;
-    } else {
-        message = <InfoMessage>&nbsp;</InfoMessage>;
+    componentDidMount() {
+        this.props.fetchCurrencyHistory();
+        this.startInterval();
     }
 
-    return (
-        <>
-            <UpdatedStatus lastUpdated={new Date(lastUpdated)} />
-            <ControlsWrapper>
-                <Select
-                    value={selectedCurrency}
-                    onChange={handleSelectedCurrencyChange}
-                    disabled={isLoading}
-                >
-                    {currencies.map(({ code, symbol, title }) => (
-                        <Option key={code} value={code}>
-                            {symbol} {title}
-                        </Option>
-                    ))}
-                </Select>
-                <Select
-                    value={selectedDays}
-                    onChange={handleSelectedDaysChange}
-                    disabled={isLoading}
-                >
-                    {DAYS_SELECT_VALUES.map(({ title, value }) => (
-                        <option key={value} value={value}>
-                            {title}
-                        </option>
-                    ))}
-                </Select>
-                {message}
-            </ControlsWrapper>
-            <CandlestickChart
-                data={currencyHistory.map(
-                    ({
-                        timestamp,
-                        rate_open,
-                        rate_high,
-                        rate_low,
-                        rate_close,
-                    }) => ({
-                        x: timestamp,
-                        o: rate_open,
-                        h: rate_high,
-                        l: rate_low,
-                        c: rate_close,
-                    })
-                )}
-            />
-        </>
-    );
+    componentDidUpdate(prevProps: TimelineProps) {
+        if (
+            prevProps.selectedCurrency !== this.props.selectedCurrency ||
+            prevProps.selectedDays !== this.props.selectedDays
+        ) {
+            this.props.fetchCurrencyHistory();
+        }
+    }
+
+    componentWillUnmount() {
+        this.clearInterval();
+    }
+
+    startInterval() {
+        this.interval = setInterval(() => {
+            this.props.fetchCurrencyHistory();
+        }, 600000);
+    }
+
+    clearInterval() {
+        if (this.interval) {
+            clearInterval(this.interval);
+        }
+    }
+
+    handleSelectedCurrencyChange = (event: ChangeEvent<HTMLSelectElement>) => {
+        this.props.setSelectedCurrency(event.target.value);
+    };
+
+    handleSelectedDaysChange = (event: ChangeEvent<HTMLSelectElement>) => {
+        this.props.setSelectedDays(+event.target.value);
+    };
+
+    render() {
+        const {
+            lastUpdated,
+            currencies,
+            selectedCurrency,
+            selectedDays,
+            currencyHistory,
+            isLoading,
+            error,
+        } = this.props;
+
+        let message;
+        if (isLoading) {
+            message = <InfoMessage>Loading...</InfoMessage>;
+        } else if (error) {
+            message = <ErrorMessage>{error}</ErrorMessage>;
+        } else {
+            message = <InfoMessage>&nbsp;</InfoMessage>;
+        }
+
+        return (
+            <>
+                <UpdatedStatus lastUpdated={new Date(lastUpdated)} />
+                <ControlsWrapper>
+                    <Select
+                        value={selectedCurrency}
+                        onChange={this.handleSelectedCurrencyChange}
+                        disabled={isLoading}
+                    >
+                        {currencies.map(({ code, symbol, title }) => (
+                            <Option key={code} value={code}>
+                                {symbol} {title}
+                            </Option>
+                        ))}
+                    </Select>
+                    <Select
+                        value={selectedDays}
+                        onChange={this.handleSelectedDaysChange}
+                        disabled={isLoading}
+                    >
+                        {DAYS_SELECT_VALUES.map(({ title, value }) => (
+                            <option key={value} value={value}>
+                                {title}
+                            </option>
+                        ))}
+                    </Select>
+                    {message}
+                </ControlsWrapper>
+                <CandlestickChart
+                    data={currencyHistory.map(
+                        ({
+                            timestamp,
+                            rate_open,
+                            rate_high,
+                            rate_low,
+                            rate_close,
+                        }) => ({
+                            x: timestamp,
+                            o: rate_open,
+                            h: rate_high,
+                            l: rate_low,
+                            c: rate_close,
+                        })
+                    )}
+                />
+            </>
+        );
+    }
 }
+
+const mapStateToProps = (state: RootState) => ({
+    lastUpdated: state.history.lastUpdated,
+    currencies: state.currency.currencies.filter(
+        ({ code }) => code !== state.currency.defaultCurrency
+    ),
+    selectedCurrency: state.history.selectedCurrency,
+    selectedDays: state.history.selectedDays,
+    currencyHistory: state.history.history,
+    isLoading: state.history.isLoading,
+    error: state.history.error,
+});
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+    fetchCurrencyHistory: () =>
+        dispatch(fetchCurrencyHistory() as unknown as UnknownAction),
+    setSelectedCurrency: (currency: string) =>
+        dispatch(setSelectedCurrency(currency)),
+    setSelectedDays: (days: number) => dispatch(setSelectedDays(days)),
+});
+
+export const Timeline = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(TimelinePage);
