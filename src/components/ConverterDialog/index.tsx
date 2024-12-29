@@ -98,6 +98,12 @@ export function ConverterDialog({
         setToCurrencyCode(event.target.value);
     };
 
+    useEffect(() => {
+        if (toCurrencyCode === currencyCode) {
+            setToCurrencyCode(currencies[0].code);
+        }
+    }, [currencies, currencyCode, toCurrencyCode]);
+
     let Message: ReactNode;
     if (isLoading) {
         Message = <InfoMessage>Loading...</InfoMessage>;
