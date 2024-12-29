@@ -1,19 +1,23 @@
 import { NavLink as RawNavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { GRADIENTS, MEDIA, MIXINS } from '#constants/styles';
+import { GRADIENTS, MIXINS } from '#constants/styles';
+
+type ListProps = {
+    $direction?: 'row' | 'column';
+    $align?: 'start' | 'center' | 'end';
+    $justify?: 'start' | 'center' | 'end';
+};
 
 export const Wrapper = styled.nav``;
 
-export const List = styled.ul`
+export const List = styled.ul<ListProps>`
     list-style: none;
     display: flex;
-    flex-direction: row;
-    gap: 3em;
-
-    @media ${MEDIA.tablet} {
-        flex-direction: column;
-    }
+    flex-direction: ${({ $direction }) => $direction ?? 'row'};
+    align-items: ${({ $align }) => $align ?? 'normal'};
+    justify-content: ${({ $justify }) => $justify ?? 'normal'};
+    gap: 2em 3em;
 `;
 
 export const ListItem = styled.li``;
