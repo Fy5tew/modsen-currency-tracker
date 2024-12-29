@@ -1,15 +1,16 @@
-import { useMenu } from '#contexts/menu';
-
 import { Bar, Button } from './styled';
 
-export function MenuButton() {
-    const { isOpen, toggle } = useMenu();
+type MenuButtonProps = {
+    isActive: boolean;
+    onClick: () => void;
+};
 
+export function MenuButton({ isActive, onClick }: MenuButtonProps) {
     return (
-        <Button $isOpen={isOpen} onClick={toggle}>
-            <Bar $isOpen={isOpen} />
-            <Bar $isOpen={isOpen} />
-            <Bar $isOpen={isOpen} />
+        <Button $isActive={isActive} onClick={onClick}>
+            <Bar $isActive={isActive} />
+            <Bar $isActive={isActive} />
+            <Bar $isActive={isActive} />
         </Button>
     );
 }

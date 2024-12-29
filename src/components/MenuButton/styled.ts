@@ -3,11 +3,11 @@ import styled, { css } from 'styled-components';
 import { GRADIENTS } from '#/constants/styles';
 
 type ButtonProps = {
-    $isOpen?: boolean;
+    $isActive?: boolean;
 };
 
 type BarProps = {
-    $isOpen?: boolean;
+    $isActive?: boolean;
 };
 
 export const Button = styled.button<ButtonProps>`
@@ -21,7 +21,8 @@ export const Button = styled.button<ButtonProps>`
 
     display: flex;
     flex-direction: column;
-    justify-content: ${({ $isOpen }) => ($isOpen ? 'center' : 'space-between')};
+    justify-content: ${({ $isActive }) =>
+        $isActive ? 'center' : 'space-between'};
     align-items: center;
     gap: 0.1em;
 `;
@@ -35,8 +36,8 @@ export const Bar = styled.span<BarProps>`
         transform 0.5s ease,
         opacity 0.5s ease;
 
-    ${({ $isOpen }) =>
-        $isOpen &&
+    ${({ $isActive }) =>
+        $isActive &&
         css`
             transform-origin: center;
 
