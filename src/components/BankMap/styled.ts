@@ -2,6 +2,7 @@ import { styled } from 'styled-components';
 
 export const MapWrapper = styled.div`
     height: 600px;
+    width: 100%;
     border-radius: 1em;
     overflow: hidden;
 
