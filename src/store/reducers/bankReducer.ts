@@ -1,8 +1,9 @@
+import { BANKS } from '#constants/banks';
 import { BankAction, BankActionType, BankState } from '#types/bank';
 
 const initialState: BankState = {
     selectedCurrency: null,
-    banks: [],
+    banks: [...BANKS],
     lastUpdated: -1,
     isLoading: false,
     error: null,
