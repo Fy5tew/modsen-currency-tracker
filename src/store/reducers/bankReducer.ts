@@ -15,7 +15,12 @@ export function bankReducer(
 ): BankState {
     switch (action.type) {
         case BankActionType.BANK_SET_SELECTED_CURRENCY:
-            return { ...state, selectedCurrency: action.payload };
+            //TEMP: Update lastUpdated because there is no API
+            return {
+                ...state,
+                selectedCurrency: action.payload,
+                lastUpdated: Date.now(),
+            };
         case BankActionType.BANK_FETCH:
             return { ...state, isLoading: true, error: null };
         case BankActionType.BANK_FETCH_SUCCESS:

@@ -8,7 +8,7 @@ import {
 } from '#types/bank';
 
 export function setSelectedCurrency(
-    currency: string
+    currency: string | null
 ): BankSetSelectedCurrencyAction {
     return {
         type: BankActionType.BANK_SET_SELECTED_CURRENCY,
