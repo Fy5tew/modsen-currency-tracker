@@ -5,3 +5,5 @@ export const COINAPI_API_CONVERT_URL = `${COINAPI_API_BASE_URL}/exchangerate/{fr
 export const COINAPI_API_KEY_HEADER = 'X-CoinAPI-Key';
 
 export const COINAPI_API_KEY = process.env.COINAPI_API_KEY ?? '';
+
+export const MAPBOX_API_KEY = process.env.MAPBOX_API_KEY ?? '';
