@@ -24,7 +24,7 @@ export const Menu = styled.div`
     min-width: fit-content;
     width: 50%;
 
-    overflow-y: scroll;
+    overflow-y: auto;
 
     background-color: ${({ theme }) => theme.backgroundColor};
     transition: background 0.3s ease-in-out;
