@@ -17,7 +17,7 @@ export const List = styled.ul<ListProps>`
     flex-direction: ${({ $direction }) => $direction ?? 'row'};
     align-items: ${({ $align }) => $align ?? 'normal'};
     justify-content: ${({ $justify }) => $justify ?? 'normal'};
-    gap: 2em 3em;
+    gap: 2.5em 4.5em;
 `;
 
 export const ListItem = styled.li``;
@@ -26,6 +26,7 @@ export const NavLink = styled(RawNavLink)`
     position: relative;
     color: inherit;
     text-decoration: none;
+    font-size: 1.2em;
 
     &:visited {
         color: inherit;
