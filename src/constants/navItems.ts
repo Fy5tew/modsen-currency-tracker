@@ -1,6 +1,6 @@
 import { ROUTES_MAP } from '#constants/routesMap';
 
-const { home, timeline, bankCard, contato } = ROUTES_MAP;
+const { home, timeline, bankCard, contact } = ROUTES_MAP;
 
 export const NAV_ITEMS = [
     {
@@ -16,7 +16,7 @@ export const NAV_ITEMS = [
         ...bankCard,
     },
     {
-        title: 'Contato',
-        ...contato,
+        title: 'Contact',
+        ...contact,
     },
 ];
