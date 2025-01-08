@@ -14,9 +14,10 @@ const plugins = [
     new FileManagerPlugin({
         events: {
             // Remove build dir
-            onStart: {
-                delete: [BUILD_DIR],
-            },
+            onStart:
+                process.env.NODE_ENV === 'production'
+                    ? { delete: [BUILD_DIR] }
+                    : {},
             onEnd: {
                 // Copy static files
                 copy: [

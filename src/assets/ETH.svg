@@ -1,0 +1,13 @@
+<svg width="80" height="81" viewBox="0 0 80 81" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect y="0.311523" width="80" height="80" rx="8" fill="#3D2E28"/>
+    <g clip-path="url(#clip0_ethereum)">
+        <path d="M40 20L31 40L40 35L49 40L40 20Z" fill="white"/>
+        <path d="M40 35L31 40L40 48L49 40L40 35Z" fill="white"/>
+        <path d="M40 48L31 44L40 60L49 44L40 48Z" fill="white"/>
+    </g>
+    <defs>
+        <clipPath id="clip0_ethereum">
+            <rect width="50" height="50" fill="white" transform="translate(15 15.3115)"/>
+        </clipPath>
+    </defs>
+</svg>
