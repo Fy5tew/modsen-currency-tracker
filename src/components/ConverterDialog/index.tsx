@@ -8,14 +8,11 @@ import { Dialog } from '#components/Dialog';
 import { CURRENCIES } from '#constants/quotes';
 import { formatPrice } from '#utils/formatPrice';
 
+import { CurrencyInput } from './CurrencyInput';
 import {
     CloseButton,
     ErrorMessage,
     InfoMessage,
-    Input,
-    InputFormattedText,
-    InputWrapper,
-    Label,
     LabelSubText,
     Option,
     Select,
@@ -23,31 +20,9 @@ import {
     Wrapper,
 } from './styled';
 
-type CurrencyInputProps = ComponentProps<typeof Input> & {
-    value: number;
-};
-
 type ConverterDialogProps = ComponentProps<typeof Dialog> & {
     currencyCode: string;
 };
-
-function CurrencyInput({ value, children, ...props }: CurrencyInputProps) {
-    return (
-        <Label>
-            <InputWrapper>
-                <Input
-                    type="number"
-                    value={value}
-                    min={0}
-                    step={0.5}
-                    {...props}
-                />
-                <InputFormattedText>{formatPrice(value, 5)}</InputFormattedText>
-            </InputWrapper>
-            {children}
-        </Label>
-    );
-}
 
 export function ConverterDialog({
     currencyCode,
