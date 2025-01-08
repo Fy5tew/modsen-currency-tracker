@@ -45,11 +45,11 @@ export function Home() {
     useEffect(() => {
         dispatch(fetchCurrenciesPrice() as unknown as UnknownAction);
 
-        const inderval = setInterval(() => {
+        const interval = setInterval(() => {
             dispatch(fetchCurrenciesPrice() as unknown as UnknownAction);
         }, 300000);
 
-        return () => clearInterval(inderval);
+        return () => clearInterval(interval);
     }, [dispatch]);
 
     return (
