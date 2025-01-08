@@ -48,6 +48,10 @@ export const Wrapper = styled.div`
             width: 5em;
         }
     }
+
+    @media ${() => MEDIA.phone} {
+        font-size: 0.75em;
+    }
 `;
 
 export const Title = styled.h1`

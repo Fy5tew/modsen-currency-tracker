@@ -7,11 +7,13 @@ import { Copyright, DetailsContent, Link, Title, Wrapper } from './styled';
 
 export function Footer() {
     const { width } = useWindowSize();
+    const isDatailsDisabled = width > BREAKPOINTS.tablet;
+    const summaryTabIndex = isDatailsDisabled ? -1 : 0;
 
     return (
         <Wrapper>
-            <Details open={width > BREAKPOINTS.tablet}>
-                <Summary>
+            <Details open={isDatailsDisabled}>
+                <Summary tabIndex={summaryTabIndex}>
                     <Title>
                         <Logo />
                         <span>Modsen Currency Tracker</span>
@@ -24,23 +26,22 @@ export function Footer() {
                     of thousands of traders worldwide.
                 </DetailsContent>
             </Details>
-            <div></div>
-            <Details open={width > BREAKPOINTS.tablet}>
-                <Summary>General</Summary>
+            <Details open={isDatailsDisabled}>
+                <Summary tabIndex={summaryTabIndex}>General</Summary>
                 <DetailsContent>
                     <Link to="">Market</Link>
                     <Link to="">Service</Link>
                 </DetailsContent>
             </Details>
-            <Details open={width > BREAKPOINTS.tablet}>
-                <Summary>Product</Summary>
+            <Details open={isDatailsDisabled}>
+                <Summary tabIndex={summaryTabIndex}>Product</Summary>
                 <DetailsContent>
                     <Link to="">Sparks</Link>
                     <Link to="">Snaps</Link>
                 </DetailsContent>
             </Details>
-            <Details open={width > BREAKPOINTS.tablet}>
-                <Summary>Community</Summary>
+            <Details open={isDatailsDisabled}>
+                <Summary tabIndex={summaryTabIndex}>Community</Summary>
                 <DetailsContent>
                     <Link to="">Ideas</Link>
                     <Link to="">Streams</Link>
