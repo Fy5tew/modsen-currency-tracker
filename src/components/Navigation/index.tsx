@@ -1,14 +1,22 @@
+import { ComponentProps } from 'react';
+
 import { NAV_ITEMS } from '#constants/navItems';
 
 import { List, ListItem, NavLink, Wrapper } from './styled';
 
-export function Navigation() {
+type NavigationProps = {
+    direction?: ComponentProps<typeof List>['$direction'];
+    align?: ComponentProps<typeof List>['$align'];
+    justify?: ComponentProps<typeof List>['$justify'];
+};
+
+export function Navigation({ direction, align, justify }: NavigationProps) {
     return (
         <Wrapper>
-            <List>
-                {NAV_ITEMS.map((item) => (
-                    <ListItem key={item.path}>
-                        <NavLink to={item.path}>{item.title}</NavLink>
+            <List $direction={direction} $align={align} $justify={justify}>
+                {NAV_ITEMS.map(({ path, title }) => (
+                    <ListItem key={path}>
+                        <NavLink to={path}>{title}</NavLink>
                     </ListItem>
                 ))}
             </List>

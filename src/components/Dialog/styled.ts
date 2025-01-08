@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 
 type OverlayProps = {
-    open: boolean;
+    open?: boolean;
 };
 
 export const Overlay = styled.div<OverlayProps>`
@@ -26,7 +26,8 @@ export const Dialog = styled.dialog`
     max-width: 90%;
     max-height: 90%;
 
-    overflow: scroll;
+    overflow-x: hidden;
+    overflow-y: auto;
 
     border-radius: 1em;
     border-color: ${({ theme }) => theme.borderColor};
