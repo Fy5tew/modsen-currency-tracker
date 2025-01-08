@@ -12,7 +12,7 @@ type ModalWindowProps = ComponentProps<typeof StyledDialog> & {
 export function Dialog({ onClose, ...props }: ModalWindowProps) {
     return createPortal(
         <>
-            <Overlay open={props.open ?? false} onClick={onClose} />
+            <Overlay open={props.open} onClick={onClose} />
             <StyledDialog {...props} />
         </>,
         document.getElementById(MODAL_ROOT_ELEMENT_ID) as HTMLElement

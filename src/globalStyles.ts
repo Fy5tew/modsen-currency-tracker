@@ -1,6 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 
-import { FONTS } from './constants/styles';
+import { COLORS, FONTS } from './constants/styles';
 
 export const GlobalStyles = createGlobalStyle`
     * {
@@ -28,5 +28,28 @@ export const GlobalStyles = createGlobalStyle`
 
     body:has(#modal-root dialog[open]) {
         overflow: hidden;
+    }
+
+    ::-webkit-scrollbar {
+        width: 15px;
+        height: 15px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-clip: content-box;
+        background-color: ${COLORS.starDust};
+        border-radius: 15px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: transparent;
+        border-image: initial;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: ${({ theme }) => (theme.themeName === 'dark' ? COLORS.lightGrey : COLORS.monSoon)};
+    }
+
+    ::-webkit-scrollbar-corner {
+        display: none;
     }
 `;
