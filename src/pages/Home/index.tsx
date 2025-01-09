@@ -14,25 +14,9 @@ import { formatPrice } from '#utils/formatPrice';
 export function Home() {
     const dispatch = useDispatch();
 
-    const lastUpdated = useSelector(
-        (state: RootState) => state.currency.lastUpdated
-    );
-
-    const defaultCurrency = useSelector(
-        (state: RootState) => state.currency.defaultCurrency
-    );
-
     const stocks = useSelector((state: RootState) => state.stock.stocks);
-
-    const currencies = useSelector(
-        (state: RootState) => state.currency.currencies
-    );
-
-    const isLoading = useSelector(
-        (state: RootState) => state.currency.isLoading
-    );
-
-    const error = useSelector((state: RootState) => state.currency.error);
+    const { lastUpdated, defaultCurrency, currencies, isLoading, error } =
+        useSelector((state: RootState) => state.currency);
 
     const [convertCurrency, setConvertCurrency] = useState(defaultCurrency);
     const [isModalOpen, setIsModalOpen] = useState(false);
