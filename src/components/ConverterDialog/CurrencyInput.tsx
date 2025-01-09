@@ -30,7 +30,7 @@ function formatValue(value: string): string {
     if (!val) {
         val = ZERO_VALUE;
     }
-    if (val.startsWith(ZERO_VALUE)) {
+    if (val.startsWith(ZERO_VALUE) && !/0\./.test(val)) {
         val = (+val).toString();
     }
     val = val.slice(0, MAX_INPUT_LENGTH);
