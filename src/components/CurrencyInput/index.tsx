@@ -3,9 +3,9 @@ import { ChangeEvent, ComponentProps, useEffect, useState } from 'react';
 import { formatPrice } from '#utils/formatPrice';
 
 import {
+    FormattedText,
+    FormattedTextWrapper,
     Input,
-    InputFormattedText,
-    InputFormattedTextWrapper,
     InputWrapper,
     Label,
 } from './styled';
@@ -73,11 +73,11 @@ export function CurrencyInput({
                     onChange={handleChange}
                     {...props}
                 />
-                <InputFormattedTextWrapper>
-                    <InputFormattedText>
+                <FormattedTextWrapper>
+                    <FormattedText>
                         {formatPrice(+value, FORMATING_DECIMAL_PLACES)}
-                    </InputFormattedText>
-                </InputFormattedTextWrapper>
+                    </FormattedText>
+                </FormattedTextWrapper>
             </InputWrapper>
             {children}
         </Label>

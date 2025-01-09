@@ -4,11 +4,11 @@ import { useSelector } from 'react-redux';
 
 import { getConversionRateApi } from '#/api/getConversionRateApi';
 import { RootState } from '#/store';
+import { CurrencyInput } from '#components/CurrencyInput';
 import { Dialog } from '#components/Dialog';
 import { CURRENCIES } from '#constants/quotes';
 import { formatPrice } from '#utils/formatPrice';
 
-import { CurrencyInput } from './CurrencyInput';
 import {
     CloseButton,
     ErrorMessage,
