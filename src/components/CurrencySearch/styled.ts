@@ -3,6 +3,10 @@ import styled from 'styled-components';
 import { COLORS } from '#/constants/styles';
 import { hexToRgba } from '#/utils/hexToRgba';
 
+type ResetButtonProps = {
+    $isVisible: boolean;
+};
+
 export const Wrapper = styled.div`
     position: relative;
     width: clamp(200px, 100%, 500px);
@@ -10,36 +14,44 @@ export const Wrapper = styled.div`
 
 export const InputWrapper = styled.div`
     width: 100%;
-    display: flex;
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
 `;
 
 export const Input = styled.input`
     font-size: 0.9em;
     padding: 1em;
-    border-radius: 10px 0 0 10px;
+    padding-right: 4.5em;
     border: none;
     outline: none;
-    flex: 1;
+    width: 100%;
 
     color: ${({ theme }) => theme.textColor};
     background-color: ${({ theme }) =>
         theme.themeName === 'dark'
-            ? hexToRgba(COLORS.darkJungleGreenPastel, 1)
+            ? hexToRgba(COLORS.darkJungleGreenPastel, 0.7)
             : hexToRgba(COLORS.lightGrey, 0.4)};
 `;
 
-export const ResetButton = styled.button`
+export const ResetButton = styled.button<ResetButtonProps>`
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translate(0, -50%);
+    width: ${({ $isVisible }) => ($isVisible ? '2em' : '0')};
+    height: 100%;
+    overflow: hidden;
     font-size: 1.5em;
-    padding: 0 0.5em;
-    border-radius: 0 10px 10px 0;
     border: none;
     cursor: pointer;
 
     color: ${({ theme }) => theme.textColor};
     background-color: ${({ theme }) =>
         theme.themeName === 'dark'
-            ? hexToRgba(COLORS.darkJungleGreenPastel, 0.7)
+            ? hexToRgba(COLORS.darkJungleGreenPastel, 1)
             : hexToRgba(COLORS.lightGrey, 0.7)};
+    transition: width 0.2s ease-in-out;
 
     &:hover > * {
         font-size: 1.5em;
@@ -47,7 +59,11 @@ export const ResetButton = styled.button`
 `;
 
 export const ButtonContent = styled.span`
-    transition: font-size 0.3s ease-in-out;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: font-size 0.2s ease-in-out;
 `;
 
 export const OptionsWrapper = styled.div`

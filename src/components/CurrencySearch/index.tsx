@@ -109,7 +109,7 @@ export function CurrencySearch({
                     onFocus={handleInputFocus}
                     placeholder="Select currency"
                 />
-                <ResetButton onClick={handleQueryClear}>
+                <ResetButton onClick={handleQueryClear} $isVisible={!!query}>
                     <ButtonContent>×</ButtonContent>
                 </ResetButton>
             </InputWrapper>
