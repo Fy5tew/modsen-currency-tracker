@@ -57,14 +57,12 @@ export function ConverterDialog({
         setToValue(fromValue * rate);
     }, [fromValue, rate]);
 
-    const handleFromValueChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const value = event.target.valueAsNumber;
+    const handleFromValueChange = (value: number) => {
         setFromValue(value);
         setToValue(value * rate);
     };
 
-    const handleToValueChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const value = event.target.valueAsNumber;
+    const handleToValueChange = (value: number) => {
         setToValue(value);
         setFromValue(value / rate);
     };

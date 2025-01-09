@@ -25,11 +25,11 @@ export const LabelSubText = styled.span``;
 export const InputWrapper = styled.div`
     position: relative;
 
-    &:has(input:focus) > span {
+    &:has(input:focus) > div {
         display: none;
     }
 
-    &:has(input[disabled]) > span {
+    &:has(input[disabled]) > div {
         color: ${COLORS.monSoon};
     }
 
@@ -50,19 +50,22 @@ export const Input = styled.input`
         theme.themeName === 'dark' ? COLORS.onyx : COLORS.white};
 `;
 
-export const InputFormattedText = styled.span`
+export const InputFormattedTextWrapper = styled.div`
     position: absolute;
     top: 0;
     left: 0;
     margin: 0 1em;
     width: calc(100% - 2em);
     height: 100%;
-    overflow-x: auto;
-
-    display: inline-flex;
+    display: flex;
     align-items: center;
+`;
 
+export const InputFormattedText = styled.span`
     font-size: 1em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 `;
 
 export const Select = styled.select`
