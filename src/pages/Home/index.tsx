@@ -29,24 +29,24 @@ export function Home() {
     useEffect(() => {
         dispatch(fetchCurrenciesPrice() as unknown as UnknownAction);
 
-        const inderval = setInterval(() => {
+        const interval = setInterval(() => {
             dispatch(fetchCurrenciesPrice() as unknown as UnknownAction);
         }, 300000);
 
-        return () => clearInterval(inderval);
+        return () => clearInterval(interval);
     }, [dispatch]);
 
     return (
         <>
             <UpdatedStatus lastUpdated={new Date(lastUpdated)} />
             <QuoteList title="Stocks">
-                {stocks.map((stock) => (
+                {stocks.map(({ code, title, rate, icon }) => (
                     <QuoteCard
-                        key={stock.code}
-                        code={stock.code}
-                        title={stock.title}
-                        text={`${stock.rate}%`}
-                        iconSrc={stock.icon}
+                        key={code}
+                        code={code}
+                        title={title}
+                        text={`${rate}%`}
+                        iconSrc={icon}
                     />
                 ))}
             </QuoteList>
@@ -54,18 +54,18 @@ export function Home() {
                 title="Quotes"
                 error={error && `Error while loading data: ${error}`}
             >
-                {currencies.map((currency) => (
+                {currencies.map(({ code, title, price, icon }) => (
                     <QuoteCard
-                        key={currency.code}
-                        code={currency.code}
-                        title={currency.title}
+                        key={code}
+                        code={code}
+                        title={title}
                         text={
                             isLoading
                                 ? 'Loading...'
-                                : `${CURRENCIES[defaultCurrency].symbol} ${formatPrice(currency.price, 2)}`
+                                : `${CURRENCIES[defaultCurrency].symbol} ${formatPrice(price, 2)}`
                         }
-                        iconSrc={currency.icon}
-                        onClick={() => handleQuoteCardClick(currency.code)}
+                        iconSrc={icon}
+                        onClick={() => handleQuoteCardClick(code)}
                     />
                 ))}
             </QuoteList>

@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 
 import { getConversionRateApi } from '#/api/getConversionRateApi';
 import { RootState } from '#/store';
+import { CurrencyInput } from '#components/CurrencyInput';
 import { Dialog } from '#components/Dialog';
 import { CURRENCIES } from '#constants/quotes';
 import { formatPrice } from '#utils/formatPrice';
@@ -12,10 +13,6 @@ import {
     CloseButton,
     ErrorMessage,
     InfoMessage,
-    Input,
-    InputFormattedText,
-    InputWrapper,
-    Label,
     LabelSubText,
     Option,
     Select,
@@ -23,31 +20,9 @@ import {
     Wrapper,
 } from './styled';
 
-type CurrencyInputProps = ComponentProps<typeof Input> & {
-    value: number;
-};
-
 type ConverterDialogProps = ComponentProps<typeof Dialog> & {
     currencyCode: string;
 };
-
-function CurrencyInput({ value, children, ...props }: CurrencyInputProps) {
-    return (
-        <Label>
-            <InputWrapper>
-                <Input
-                    type="number"
-                    value={value}
-                    min={0}
-                    step={0.5}
-                    {...props}
-                />
-                <InputFormattedText>{formatPrice(value, 5)}</InputFormattedText>
-            </InputWrapper>
-            {children}
-        </Label>
-    );
-}
 
 export function ConverterDialog({
     currencyCode,
@@ -82,14 +57,12 @@ export function ConverterDialog({
         setToValue(fromValue * rate);
     }, [fromValue, rate]);
 
-    const handleFromValueChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const value = event.target.valueAsNumber;
+    const handleFromValueChange = (value: number) => {
         setFromValue(value);
         setToValue(value * rate);
     };
 
-    const handleToValueChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const value = event.target.valueAsNumber;
+    const handleToValueChange = (value: number) => {
         setToValue(value);
         setFromValue(value / rate);
     };
