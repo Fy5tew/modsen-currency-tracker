@@ -24,7 +24,7 @@ export const ROUTES_MAP = {
         path: contato,
         element: <Contato />,
     },
-    NotFound: {
+    notFound: {
         path: notFound,
         element: <NotFound />,
     },
