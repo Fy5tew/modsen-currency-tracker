@@ -1,4 +1,5 @@
 const path = require('path');
+const dotenv = require('dotenv');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -10,7 +11,13 @@ const BUILD_DIR = path.resolve(__dirname, 'build');
 const PUBLIC_DIR = path.resolve(__dirname, 'public');
 const STATIC_DIR = path.resolve(__dirname, 'static');
 
+const env = dotenv.config().parsed || {};
+
 const plugins = [
+    new webpack.DefinePlugin({
+        // Конвертируем переменные окружения в формат, понятный Webpack
+        'process.env': JSON.stringify(env),
+    }),
     new FileManagerPlugin({
         events: {
             // Remove build dir

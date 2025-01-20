@@ -5,7 +5,7 @@ import { StockState } from '#types/stock';
 
 const initialState: StockState = {
     stocks: Object.values(STOCKS).map((stock) => ({
-        code: stock.code,
+        ...stock,
         rate: 0,
     })),
 };

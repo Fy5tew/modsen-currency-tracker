@@ -3,7 +3,7 @@ import { createContext } from 'react';
 import { DEFAULT_THEME } from '#constants/themes';
 import { Theme } from '#types/theme';
 
-type ThemeContextType = {
+export type ThemeContextType = {
     theme: Theme;
     toggleTheme: () => void;
 };

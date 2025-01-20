@@ -1,4 +1,4 @@
-export type Currency = {
+export type CurrencyInfo = {
     code: string;
     symbol: string;
     title: string;
@@ -10,9 +10,11 @@ export type CurrencyPrice = {
     price: number;
 };
 
+export type Currency = CurrencyInfo & CurrencyPrice;
+
 export type CurrencyState = {
     defaultCurrency: string;
-    currencies: CurrencyPrice[];
+    currencies: Currency[];
     lastUpdated: number;
     isLoading: boolean;
     error: null | string;
