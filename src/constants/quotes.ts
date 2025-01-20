@@ -9,10 +9,10 @@ import ibovIcon from '#assets/IBOV.svg';
 import ifixIcon from '#assets/IFIX.svg';
 import jpyIcon from '#assets/JPY.svg';
 import usdIcon from '#assets/USD.svg';
-import type { Currency } from '#types/currency';
-import type { Stock } from '#types/stock';
+import type { CurrencyInfo } from '#types/currency';
+import type { StockInfo } from '#types/stock';
 
-export const STOCKS: Record<string, Stock> = {
+export const STOCKS: Record<string, StockInfo> = {
     IBOV: {
         code: 'IBOV',
         title: 'Bovespa Index',
@@ -25,7 +25,7 @@ export const STOCKS: Record<string, Stock> = {
     },
 } as const;
 
-export const CURRENCIES: Record<string, Currency> = {
+export const CURRENCIES: Record<string, CurrencyInfo> = {
     USD: {
         code: 'USD',
         symbol: '$',
@@ -74,7 +74,7 @@ export const CURRENCIES: Record<string, Currency> = {
         title: 'Bitcoin',
         icon: btcIcon,
     },
-    ETC: {
+    ETH: {
         code: 'ETH',
         symbol: 'Ξ',
         title: 'Ethereum',

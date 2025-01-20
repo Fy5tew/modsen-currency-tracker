@@ -1,18 +1,21 @@
 import { ReactNode } from 'react';
 
-import { List, Title } from './styled';
+import { ErrorText, List, Title } from './styled';
 
 type QuoteListProps = {
     title: string;
+    error?: string | null;
     children: ReactNode;
 };
 
-export function QuoteList({ title, children }: QuoteListProps) {
+export function QuoteList({ title, error, children }: QuoteListProps) {
     return (
         <>
             <List>
-                <Title>{title}</Title>
-                <div></div>
+                <Title>
+                    {title} {error && <ErrorText>{error}</ErrorText>}
+                </Title>
+                {!error && <div></div>}
                 {children}
             </List>
         </>

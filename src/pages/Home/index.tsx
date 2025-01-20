@@ -1,53 +1,89 @@
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { UnknownAction } from 'redux';
 
 import { RootState } from '#/store';
+import { fetchCurrenciesPrice } from '#/store/actions/currency';
 import { ConverterDialog } from '#components/ConverterDialog';
 import { QuoteCard } from '#components/QuoteCard';
 import { QuoteList } from '#components/QuoteList';
 import { UpdatedStatus } from '#components/UpdatedStatus';
-import { CURRENCIES, STOCKS } from '#constants/quotes';
+import { CURRENCIES } from '#constants/quotes';
+import { formatPrice } from '#utils/formatPrice';
 
 export function Home() {
-    const [convertCurrency, setConvertCurrency] = useState(CURRENCIES.USD.code);
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const dispatch = useDispatch();
 
     const lastUpdated = useSelector(
         (state: RootState) => state.currency.lastUpdated
     );
+
+    const defaultCurrency = useSelector(
+        (state: RootState) => state.currency.defaultCurrency
+    );
+
+    const stocks = useSelector((state: RootState) => state.stock.stocks);
+
+    const currencies = useSelector(
+        (state: RootState) => state.currency.currencies
+    );
+
+    const isLoading = useSelector(
+        (state: RootState) => state.currency.isLoading
+    );
+
+    const error = useSelector((state: RootState) => state.currency.error);
+
+    const [convertCurrency, setConvertCurrency] = useState(defaultCurrency);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleQuoteCardClick = (currencyCode: string) => {
         setConvertCurrency(currencyCode);
         setIsModalOpen(true);
     };
 
+    useEffect(() => {
+        dispatch(fetchCurrenciesPrice() as unknown as UnknownAction);
+
+        const interval = setInterval(() => {
+            dispatch(fetchCurrenciesPrice() as unknown as UnknownAction);
+        }, 300000);
+
+        return () => clearInterval(interval);
+    }, [dispatch]);
+
     return (
         <>
             <UpdatedStatus lastUpdated={new Date(lastUpdated)} />
             <QuoteList title="Stocks">
-                {Object.values(STOCKS).map(({ code, title, icon }) => (
+                {stocks.map(({ code, title, rate, icon }) => (
                     <QuoteCard
                         key={code}
                         code={code}
                         title={title}
-                        text="15%"
+                        text={`${rate}%`}
                         iconSrc={icon}
                     />
                 ))}
             </QuoteList>
-            <QuoteList title="Quotes">
-                {Object.values(CURRENCIES).map(
-                    ({ code, title, symbol, icon }) => (
-                        <QuoteCard
-                            key={code}
-                            code={code}
-                            title={title}
-                            text={`${symbol} 77,8`}
-                            iconSrc={icon}
-                            onClick={() => handleQuoteCardClick(code)}
-                        />
-                    )
-                )}
+            <QuoteList
+                title="Quotes"
+                error={error && `Error while loading data: ${error}`}
+            >
+                {currencies.map(({ code, title, price, icon }) => (
+                    <QuoteCard
+                        key={code}
+                        code={code}
+                        title={title}
+                        text={
+                            isLoading
+                                ? 'Loading...'
+                                : `${CURRENCIES[defaultCurrency].symbol} ${formatPrice(price, 2)}`
+                        }
+                        iconSrc={icon}
+                        onClick={() => handleQuoteCardClick(code)}
+                    />
+                ))}
             </QuoteList>
             <ConverterDialog
                 currencyCode={convertCurrency}
