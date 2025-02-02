@@ -1,6 +1,7 @@
 import { ChangeEvent, Component, createRef } from 'react';
 import { connect } from 'react-redux';
 
+import { Select } from '#/components/Select';
 import { AppDispatch, AppState } from '#/types/store';
 import { CandlestickChart } from '#components/CandlestickChart';
 import { ChartInfoDialog } from '#components/ChartInfoDialog';
@@ -9,13 +10,7 @@ import { setSelectedCurrency, setSelectedDays } from '#store/actions/history';
 import { fetchCurrencyHistory } from '#store/actions/history';
 import { History } from '#types/history';
 
-import {
-    ControlsWrapper,
-    ErrorMessage,
-    InfoMessage,
-    Option,
-    Select,
-} from './styled';
+import { ControlsWrapper, ErrorMessage, InfoMessage } from './styled';
 
 const DAYS_SELECT_VALUES = [
     {
@@ -135,27 +130,23 @@ class TimelinePage extends Component<TimelineProps, TimelineState> {
                 <UpdatedStatus lastUpdated={new Date(lastUpdated)} />
                 <ControlsWrapper>
                     <Select
+                        options={currencies.map(({ code, symbol, title }) => ({
+                            value: code,
+                            title: `${symbol} ${title}`,
+                        }))}
                         value={selectedCurrency}
                         onChange={this.handleSelectedCurrencyChange}
                         disabled={isLoading}
-                    >
-                        {currencies.map(({ code, symbol, title }) => (
-                            <Option key={code} value={code}>
-                                {symbol} {title}
-                            </Option>
-                        ))}
-                    </Select>
+                    />
                     <Select
+                        options={DAYS_SELECT_VALUES.map(({ value, title }) => ({
+                            value: value,
+                            title: title,
+                        }))}
                         value={selectedDays}
                         onChange={this.handleSelectedDaysChange}
                         disabled={isLoading}
-                    >
-                        {DAYS_SELECT_VALUES.map(({ title, value }) => (
-                            <option key={value} value={value}>
-                                {title}
-                            </option>
-                        ))}
-                    </Select>
+                    />
                     {message}
                 </ControlsWrapper>
                 <CandlestickChart

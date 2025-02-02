@@ -2,6 +2,7 @@ import { ChangeEvent, ComponentProps, ReactNode } from 'react';
 import { useEffect, useState } from 'react';
 
 import { getConversionRateApi } from '#/api/getConversionRateApi';
+import { Select } from '#/components/Select';
 import { useAppSelector } from '#/store';
 import { CurrencyInput } from '#components/CurrencyInput';
 import { Dialog } from '#components/Dialog';
@@ -13,8 +14,6 @@ import {
     ErrorMessage,
     InfoMessage,
     LabelSubText,
-    Option,
-    Select,
     Title,
     Wrapper,
 } from './styled';
@@ -108,16 +107,14 @@ export function ConverterDialog({
                     disabled={isLoading}
                 >
                     <Select
+                        options={currencies.map(({ code, symbol, title }) => ({
+                            value: code,
+                            title: `${symbol} ${title}`,
+                        }))}
                         value={toCurrencyCode}
                         onChange={handleToCurrencyChange}
                         disabled={isLoading}
-                    >
-                        {currencies.map(({ code, symbol, title }) => (
-                            <Option key={code} value={code}>
-                                {symbol} {title}
-                            </Option>
-                        ))}
-                    </Select>
+                    />
                 </CurrencyInput>
                 {Message}
                 <CloseButton onClick={onClose}>Close</CloseButton>
