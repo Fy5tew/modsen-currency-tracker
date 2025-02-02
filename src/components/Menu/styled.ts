@@ -12,6 +12,7 @@ export const Overlay = styled.div<OverlayProps>`
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     transition: transform 0.3s ease-in-out;
+    z-index: 10;
 
     ${({ $isOpen }) => !$isOpen && 'transform: translateX(100%);'}
 `;
