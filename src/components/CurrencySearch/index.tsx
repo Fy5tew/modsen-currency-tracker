@@ -1,7 +1,6 @@
 import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
 
-import { RootState } from '#/store';
+import { useAppSelector } from '#/store';
 import { useOnClickOutside } from '#hooks/useOnCLickOutside';
 
 import {
@@ -29,9 +28,7 @@ export function CurrencySearch({
     selectedCurrency,
     selectCurrency,
 }: CurrencySearchProps) {
-    const currencies = useSelector(
-        (state: RootState) => state.currency.currencies
-    );
+    const currencies = useAppSelector((state) => state.currency.currencies);
     const titles: CurrencyTitle[] = useMemo(
         () =>
             currencies.map(({ code, title, symbol }) => ({

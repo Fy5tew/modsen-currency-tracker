@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { UnknownAction } from 'redux';
 
-import { RootState } from '#/store';
+import { useAppDispatch, useAppSelector } from '#/store';
 import { fetchCurrenciesPrice } from '#/store/actions/currency';
 import { ConverterDialog } from '#components/ConverterDialog';
 import { QuoteCard } from '#components/QuoteCard';
@@ -12,11 +10,11 @@ import { CURRENCIES } from '#constants/quotes';
 import { formatPrice } from '#utils/formatPrice';
 
 export function Home() {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
-    const stocks = useSelector((state: RootState) => state.stock.stocks);
+    const stocks = useAppSelector((state) => state.stock.stocks);
     const { lastUpdated, defaultCurrency, currencies, isLoading, error } =
-        useSelector((state: RootState) => state.currency);
+        useAppSelector((state) => state.currency);
 
     const [convertCurrency, setConvertCurrency] = useState(defaultCurrency);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -27,10 +25,10 @@ export function Home() {
     };
 
     useEffect(() => {
-        dispatch(fetchCurrenciesPrice() as unknown as UnknownAction);
+        dispatch(fetchCurrenciesPrice());
 
         const interval = setInterval(() => {
-            dispatch(fetchCurrenciesPrice() as unknown as UnknownAction);
+            dispatch(fetchCurrenciesPrice());
         }, 300000);
 
         return () => clearInterval(interval);

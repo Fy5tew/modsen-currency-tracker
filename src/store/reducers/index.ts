@@ -11,5 +11,3 @@ export const rootReducer = combineReducers({
     history: historyReducer,
     bank: bankReducer,
 });
-
-export type RootState = ReturnType<typeof rootReducer>;

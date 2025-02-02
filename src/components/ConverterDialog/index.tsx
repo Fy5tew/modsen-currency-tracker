@@ -1,9 +1,8 @@
 import { ChangeEvent, ComponentProps, ReactNode } from 'react';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 
 import { getConversionRateApi } from '#/api/getConversionRateApi';
-import { RootState } from '#/store';
+import { useAppSelector } from '#/store';
 import { CurrencyInput } from '#components/CurrencyInput';
 import { Dialog } from '#components/Dialog';
 import { CURRENCIES } from '#constants/quotes';
@@ -31,7 +30,7 @@ export function ConverterDialog({
 }: ConverterDialogProps) {
     const fromCurrency = CURRENCIES[currencyCode];
 
-    const currencies = useSelector((state: RootState) =>
+    const currencies = useAppSelector((state) =>
         state.currency.currencies.filter(({ code }) => code !== currencyCode)
     );
 

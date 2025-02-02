@@ -1,8 +1,7 @@
 import { ChangeEvent, Component, createRef } from 'react';
 import { connect } from 'react-redux';
-import { Dispatch, UnknownAction } from 'redux';
 
-import { RootState } from '#/store';
+import { AppDispatch, AppState } from '#/types/store';
 import { CandlestickChart } from '#components/CandlestickChart';
 import { ChartInfoDialog } from '#components/ChartInfoDialog';
 import { UpdatedStatus } from '#components/UpdatedStatus';
@@ -186,7 +185,7 @@ class TimelinePage extends Component<TimelineProps, TimelineState> {
     }
 }
 
-const mapStateToProps = (state: RootState) => ({
+const mapStateToProps = (state: AppState) => ({
     lastUpdated: state.history.lastUpdated,
     currencies: state.currency.currencies.filter(
         ({ code }) => code !== state.currency.defaultCurrency
@@ -198,9 +197,8 @@ const mapStateToProps = (state: RootState) => ({
     error: state.history.error,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-    fetchCurrencyHistory: () =>
-        dispatch(fetchCurrencyHistory() as unknown as UnknownAction),
+const mapDispatchToProps = (dispatch: AppDispatch) => ({
+    fetchCurrencyHistory: () => dispatch(fetchCurrencyHistory()),
     setSelectedCurrency: (currency: string) =>
         dispatch(setSelectedCurrency(currency)),
     setSelectedDays: (days: number) => dispatch(setSelectedDays(days)),
