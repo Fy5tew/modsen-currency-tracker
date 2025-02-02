@@ -36,6 +36,12 @@ export const Input = styled.input`
     color: ${({ theme }) => theme.textColor};
     background-color: ${({ theme }) =>
         theme.themeName === 'dark' ? COLORS.onyx : COLORS.white};
+
+    &::-webkit-inner-spin-button {
+        filter: invert(
+            ${({ theme }) => (theme.themeName === 'dark' ? '1' : '0')}
+        );
+    }
 `;
 
 export const FormattedTextWrapper = styled.div`
