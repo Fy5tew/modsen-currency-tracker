@@ -4,8 +4,8 @@ import { Dispatch } from 'redux';
 
 import { CurrencySearch } from '#/components/CurrencySearch';
 import { UpdatedStatus } from '#/components/UpdatedStatus';
-import { RootState } from '#/store';
 import { setSelectedCurrency } from '#/store/actions/bank';
+import { AppState } from '#/types/store';
 import { BankMap } from '#components/BankMap';
 import { Bank } from '#types/bank';
 
@@ -71,7 +71,7 @@ class BankCardPage extends Component<BankCardProps, BankCardState> {
     }
 }
 
-const MapStateToProps = (state: RootState) => ({
+const MapStateToProps = (state: AppState) => ({
     lastUpdated: state.bank.lastUpdated,
     banks: state.bank.banks,
     selectedCurrency: state.bank.selectedCurrency,

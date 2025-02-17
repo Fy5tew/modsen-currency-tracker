@@ -1,11 +1,11 @@
 import { ROUTES } from '#constants/routes';
 import { BankCard } from '#pages/BankCard';
-import { Contato } from '#pages/Contato';
+import { Contact } from '#pages/Contact';
 import { Home } from '#pages/Home';
 import { NotFound } from '#pages/NotFound';
 import { Timeline } from '#pages/Timeline';
 
-const { home, timeline, bankCard, contato, notFound } = ROUTES;
+const { home, timeline, bankCard, contact, notFound } = ROUTES;
 
 export const ROUTES_MAP = {
     home: {
@@ -20,9 +20,9 @@ export const ROUTES_MAP = {
         path: bankCard,
         element: <BankCard />,
     },
-    contato: {
-        path: contato,
-        element: <Contato />,
+    contact: {
+        path: contact,
+        element: <Contact />,
     },
     notFound: {
         path: notFound,

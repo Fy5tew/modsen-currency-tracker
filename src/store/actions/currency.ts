@@ -1,7 +1,5 @@
-import { Action } from 'redux';
-import { ThunkAction } from 'redux-thunk';
-
 import { fetchCurrenciesPriceApi } from '#/api/fetchCurrenciesPriceApi';
+import { AppThunk } from '#/types/store';
 import {
     CurrencyActionType,
     CurrencyFetchPricesAction,
@@ -10,8 +8,6 @@ import {
     CurrencyPrice,
     CurrencySetDefaultCurrencyAction,
 } from '#types/currency';
-
-import { RootState } from '../reducers';
 
 export function setDefaultCurrency(
     currency: string
@@ -46,12 +42,7 @@ export function fetchPricesError(
     };
 }
 
-export function fetchCurrenciesPrice(): ThunkAction<
-    void,
-    RootState,
-    unknown,
-    Action
-> {
+export function fetchCurrenciesPrice(): AppThunk {
     return async function (dispatch, getState) {
         try {
             dispatch(fetchPrices());

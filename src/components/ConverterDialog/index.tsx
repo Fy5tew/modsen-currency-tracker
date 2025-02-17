@@ -1,9 +1,9 @@
 import { ChangeEvent, ComponentProps, ReactNode } from 'react';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 
 import { getConversionRateApi } from '#/api/getConversionRateApi';
-import { RootState } from '#/store';
+import { Select } from '#/components/Select';
+import { useAppSelector } from '#/store';
 import { CurrencyInput } from '#components/CurrencyInput';
 import { Dialog } from '#components/Dialog';
 import { CURRENCIES } from '#constants/quotes';
@@ -14,8 +14,6 @@ import {
     ErrorMessage,
     InfoMessage,
     LabelSubText,
-    Option,
-    Select,
     Title,
     Wrapper,
 } from './styled';
@@ -31,7 +29,7 @@ export function ConverterDialog({
 }: ConverterDialogProps) {
     const fromCurrency = CURRENCIES[currencyCode];
 
-    const currencies = useSelector((state: RootState) =>
+    const currencies = useAppSelector((state) =>
         state.currency.currencies.filter(({ code }) => code !== currencyCode)
     );
 
@@ -109,16 +107,14 @@ export function ConverterDialog({
                     disabled={isLoading}
                 >
                     <Select
+                        options={currencies.map(({ code, symbol, title }) => ({
+                            value: code,
+                            title: `${symbol} ${title}`,
+                        }))}
                         value={toCurrencyCode}
                         onChange={handleToCurrencyChange}
                         disabled={isLoading}
-                    >
-                        {currencies.map(({ code, symbol, title }) => (
-                            <Option key={code} value={code}>
-                                {symbol} {title}
-                            </Option>
-                        ))}
-                    </Select>
+                    />
                 </CurrencyInput>
                 {Message}
                 <CloseButton onClick={onClose}>Close</CloseButton>

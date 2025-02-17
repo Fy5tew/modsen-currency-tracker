@@ -1,8 +1,8 @@
 import { ChangeEvent, Component, createRef } from 'react';
 import { connect } from 'react-redux';
-import { Dispatch, UnknownAction } from 'redux';
 
-import { RootState } from '#/store';
+import { Select } from '#/components/Select';
+import { AppDispatch, AppState } from '#/types/store';
 import { CandlestickChart } from '#components/CandlestickChart';
 import { ChartInfoDialog } from '#components/ChartInfoDialog';
 import { UpdatedStatus } from '#components/UpdatedStatus';
@@ -10,13 +10,7 @@ import { setSelectedCurrency, setSelectedDays } from '#store/actions/history';
 import { fetchCurrencyHistory } from '#store/actions/history';
 import { History } from '#types/history';
 
-import {
-    ControlsWrapper,
-    ErrorMessage,
-    InfoMessage,
-    Option,
-    Select,
-} from './styled';
+import { ControlsWrapper, ErrorMessage, InfoMessage } from './styled';
 
 const DAYS_SELECT_VALUES = [
     {
@@ -136,27 +130,23 @@ class TimelinePage extends Component<TimelineProps, TimelineState> {
                 <UpdatedStatus lastUpdated={new Date(lastUpdated)} />
                 <ControlsWrapper>
                     <Select
+                        options={currencies.map(({ code, symbol, title }) => ({
+                            value: code,
+                            title: `${symbol} ${title}`,
+                        }))}
                         value={selectedCurrency}
                         onChange={this.handleSelectedCurrencyChange}
                         disabled={isLoading}
-                    >
-                        {currencies.map(({ code, symbol, title }) => (
-                            <Option key={code} value={code}>
-                                {symbol} {title}
-                            </Option>
-                        ))}
-                    </Select>
+                    />
                     <Select
+                        options={DAYS_SELECT_VALUES.map(({ value, title }) => ({
+                            value: value,
+                            title: title,
+                        }))}
                         value={selectedDays}
                         onChange={this.handleSelectedDaysChange}
                         disabled={isLoading}
-                    >
-                        {DAYS_SELECT_VALUES.map(({ title, value }) => (
-                            <option key={value} value={value}>
-                                {title}
-                            </option>
-                        ))}
-                    </Select>
+                    />
                     {message}
                 </ControlsWrapper>
                 <CandlestickChart
@@ -186,7 +176,7 @@ class TimelinePage extends Component<TimelineProps, TimelineState> {
     }
 }
 
-const mapStateToProps = (state: RootState) => ({
+const mapStateToProps = (state: AppState) => ({
     lastUpdated: state.history.lastUpdated,
     currencies: state.currency.currencies.filter(
         ({ code }) => code !== state.currency.defaultCurrency
@@ -198,9 +188,8 @@ const mapStateToProps = (state: RootState) => ({
     error: state.history.error,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-    fetchCurrencyHistory: () =>
-        dispatch(fetchCurrencyHistory() as unknown as UnknownAction),
+const mapDispatchToProps = (dispatch: AppDispatch) => ({
+    fetchCurrencyHistory: () => dispatch(fetchCurrencyHistory()),
     setSelectedCurrency: (currency: string) =>
         dispatch(setSelectedCurrency(currency)),
     setSelectedDays: (days: number) => dispatch(setSelectedDays(days)),

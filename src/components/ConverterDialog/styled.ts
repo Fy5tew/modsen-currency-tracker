@@ -14,17 +14,6 @@ export const Title = styled.h1`
 
 export const LabelSubText = styled.span``;
 
-export const Select = styled.select`
-    padding: 1em;
-    border-radius: 0.5em;
-
-    color: ${({ theme }) => theme.textColor};
-    background-color: ${({ theme }) =>
-        theme.themeName === 'dark' ? COLORS.onyx : COLORS.white};
-`;
-
-export const Option = styled.option``;
-
 export const InfoMessage = styled.p`
     color: ${COLORS.greenTeal};
     min-height: 1.5em;

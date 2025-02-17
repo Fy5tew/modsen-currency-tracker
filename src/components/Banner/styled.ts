@@ -42,6 +42,7 @@ export const Wrapper = styled.div`
         justify-items: center;
 
         text-align: center;
+        font-size: 0.75em;
 
         & > *:last-child {
             height: 100%;
@@ -50,7 +51,7 @@ export const Wrapper = styled.div`
     }
 
     @media ${() => MEDIA.phone} {
-        font-size: 0.75em;
+        font-size: 0.5em;
     }
 `;
 

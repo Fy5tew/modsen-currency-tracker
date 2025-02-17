@@ -1,7 +1,5 @@
-import { Action } from 'redux';
-import { ThunkAction } from 'redux-thunk';
-
 import { fetchCurrencyHistoryApi } from '#/api/fetchCurrencyHistoryApi';
+import { AppThunk } from '#/types/store';
 import { CoinApiTimeseriesPeriod } from '#types/api';
 import {
     History,
@@ -12,8 +10,6 @@ import {
     HistorySetSelectedCurrencyAction,
     HistorySetSelectedDaysAction,
 } from '#types/history';
-
-import { RootState } from '../reducers';
 
 export function setSelectedCurrency(
     currency: string
@@ -53,12 +49,7 @@ export function fetchHistoryError(error: string): HistoryFetchErrorAction {
     };
 }
 
-export function fetchCurrencyHistory(): ThunkAction<
-    void,
-    RootState,
-    unknown,
-    Action
-> {
+export function fetchCurrencyHistory(): AppThunk {
     return async function (dispatch, getState) {
         try {
             dispatch(fetchHistory());
