@@ -1,6 +1,6 @@
 {
     "name": "modsen-currency-tracker",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": "Modsen Test Task #1",
     "main": "src/index.tsx",
     "repository": "https://github.com/Fy5tew/modsen-currency-tracker",
