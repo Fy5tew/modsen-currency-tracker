@@ -14,8 +14,8 @@
     "scripts": {
         "start-dev": "cross-env-shell webpack serve ${npm_package_config_wpdev}",
         "start-prod": "cross-env-shell webpack serve ${npm_package_config_wpprod}",
-        "build-dev": "cross-env-shell webpack ${npm_package_config_dev}",
-        "build-prod": "cross-env-shell webpack ${npm_package_config_prod} --stats-children",
+        "build-dev": "cross-env-shell webpack ${npm_package_config_wpdev}",
+        "build-prod": "cross-env-shell webpack ${npm_package_config_wpprod} --stats-children",
         "clean": "rd /s /q build",
         "lint": "eslint .",
         "lint-fix": "eslint src --fix",
