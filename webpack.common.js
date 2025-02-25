@@ -11,12 +11,12 @@ const BUILD_DIR = path.resolve(__dirname, 'build');
 const PUBLIC_DIR = path.resolve(__dirname, 'public');
 const STATIC_DIR = path.resolve(__dirname, 'static');
 
-const env = dotenv.config().parsed || {};
+dotenv.config();
 
 const plugins = [
     new webpack.DefinePlugin({
         // Конвертируем переменные окружения в формат, понятный Webpack
-        'process.env': JSON.stringify(env),
+        'process.env': JSON.stringify(process.env),
     }),
     new FileManagerPlugin({
         events: {
